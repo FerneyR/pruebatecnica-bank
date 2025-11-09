@@ -1,0 +1,12 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "850995556415.dkr.ecr.us-east-2.amazonaws.com/bank/card-service:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": 8081
+    }
+  ]
+}
