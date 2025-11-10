@@ -29,6 +29,7 @@ RF-09: La anulación solo se permite si la transacción tiene menos de 24 horas 
 RF-10: La anulación debe reversar el monto (devolver el saldo) a la tarjeta.
 
 ✅ Requerimientos No Funcionales (Arquitectura y Calidad)
+
 RNF-01: La solución debe estar implementada en una arquitectura de Microservicios (Servicio de Tarjetas y Servicio de Transacciones).
 
 RNF-02: El código debe incluir Pruebas Unitarias para la lógica de negocio (WIP: Cobertura actual ~20%).
