@@ -1,6 +1,6 @@
 # Prueba Técnica
 
-Este repositorio contiene la solución completa al reto técnico, implementando una arquitectura de microservicios (Tarjetas y Transacciones) desplegada en AWS.
+Este repositorio contiene la solución completa a la prueba técnica, implementando una arquitectura de microservicios (Tarjetas y Transacciones) desplegada en AWS.
 
 ## 1. Listado de Requerimientos Obtenidos
 
