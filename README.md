@@ -7,7 +7,7 @@ Este repositorio contiene la solución completa al reto técnico, implementando 
 La solución cumple con los siguientes requerimientos funcionales y no funcionales:
 
 ✅ Requerimientos Funcionales (Lógica de Negocio)
-RF-01: Generar un número de tarjeta único (PAN) de 16 dígitos, asociado a un ID de producto de 6 dígitos.
+RF-01: Generar un número de tarjeta único de 16 dígitos, asociado a un ID de producto de 6 dígitos.
 
 RF-02: Activar una tarjeta (Enroll) para poder usarla.
 
