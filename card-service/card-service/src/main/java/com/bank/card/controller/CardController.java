@@ -22,7 +22,7 @@ public class CardController {
     @GetMapping("/{productId}/number")
     public ResponseEntity<CardNumberResponseDTO> generarNumeroTarjeta(@PathVariable String productId) {
         String cardNumber = cardService.generarNumeroTarjeta(productId);
-        return ResponseEntity.ok(new CardNumberResponseDTO(cardNumber, productId));
+        return ResponseEntity.ok(CardNumberResponseDTO.of(cardNumber, productId));
     }
 
     @PostMapping("/enroll")

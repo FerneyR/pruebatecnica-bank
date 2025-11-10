@@ -42,11 +42,12 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (Exception e) {
             throw new TransactionException("Error al validar tarjeta: " + e.getMessage());
         }
-        Transaction tx = new Transaction();
-        tx.setCardId(request.getCardId());
-        tx.setPrice(request.getPrice());
-        tx.setTransactionDate(LocalDateTime.now());
-        tx.setAnnulled(false);
+        Transaction tx = Transaction.builder()
+            .cardId(request.getCardId())
+            .price(request.getPrice())
+            .transactionDate(LocalDateTime.now())
+            .isAnnulled(false)
+            .build();
 
         Transaction savedTx = transactionRepository.save(tx);
         return new TransactionResponseDTO(
@@ -93,12 +94,6 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionDetailsDTO getTransaction(Long transactionId) {
         Transaction tx = transactionRepository.findById(transactionId)
                 .orElseThrow(() -> new TransactionException("Transacción no encontrada (not found) con id: " + transactionId));
-                return new TransactionDetailsDTO(
-                tx.getTransactionId(),
-                tx.getCardId(),
-                tx.getPrice(),
-                tx.getTransactionDate(),
-                tx.isAnnulled()
-        );
+                return TransactionDetailsDTO.fromEntity(tx);
     }
 }

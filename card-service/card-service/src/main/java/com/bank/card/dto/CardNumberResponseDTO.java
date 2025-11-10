@@ -6,4 +6,8 @@ import lombok.NoArgsConstructor;
 public class CardNumberResponseDTO {
     private String cardNumber;
     private String productId;
+
+    public static CardNumberResponseDTO of(String cardNumber, String productId) {
+        return new CardNumberResponseDTO(cardNumber, productId);
+    }
 }

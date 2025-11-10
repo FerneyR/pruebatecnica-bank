@@ -33,14 +33,15 @@ public class CardServiceImpl implements CardService {
 
         String numeroGenerado = generateCardNumber(productId);
 
-        Card nuevaTarjeta = new Card();
-        nuevaTarjeta.setCardId(numeroGenerado);
-        nuevaTarjeta.setProductId(productId);
-        nuevaTarjeta.setHolderName("Usuario Bank"); 
-        nuevaTarjeta.setExpiryDate(LocalDate.now().plusYears(3));
-        nuevaTarjeta.setBalance(BigDecimal.ZERO);
-        nuevaTarjeta.setActive(false);
-        nuevaTarjeta.setBlocked(false);
+        Card nuevaTarjeta = Card.builder()
+            .cardId(numeroGenerado)
+            .productId(productId)
+            .holderName("Usuario Bank")
+            .expiryDate(LocalDate.now().plusYears(3))
+            .balance(BigDecimal.ZERO)
+            .isActive(false)
+            .isBlocked(false)
+            .build();
 
         cardRepository.save(nuevaTarjeta);
         return numeroGenerado;
