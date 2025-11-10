@@ -26,67 +26,52 @@ import com.bank.card.repository.CardRepository;
 @ExtendWith(MockitoExtension.class)
 class CardServiceImplTest {
 
-    // 1. Creamos un "impostor" (Mock) del repositorio.
     @Mock
     private CardRepository cardRepository;
 
-    // 2. Le decimos a Mockito: "Crea una instancia real de CardServiceImpl
-    // e inyéctale el 'impostor' de arriba".
     @InjectMocks
     private CardServiceImpl cardService;
 
-    // --- Pruebas para generarNumeroTarjeta ---
 
     @Test
     void testGenerarNumeroTarjeta_Success() {
-        // --- 1. Preparación (Arrange) ---
         String productId = "123456";
         
-        // Cuando se llame a repository.save(CUALQUIER_TARJETA),
-        // "finge" que la guarda y la devuelve.
         when(cardRepository.save(any(Card.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
-        // --- 2. Actuación (Act) ---
         String numeroTarjeta = cardService.generarNumeroTarjeta(productId);
 
-        // --- 3. Afirmación (Assert) ---
         assertNotNull(numeroTarjeta);
         assertEquals(16, numeroTarjeta.length());
         assertTrue(numeroTarjeta.startsWith(productId));
-        // Verificamos que el método save() fue llamado exactamente 1 vez.
         verify(cardRepository, times(1)).save(any(Card.class));
     }
 
     @Test
     void testGenerarNumeroTarjeta_InvalidProductId() {
-        // Afirmamos que la llamada con un ID inválido LANZARÁ una IllegalArgumentException
         assertThrows(IllegalArgumentException.class, () -> {
-            cardService.generarNumeroTarjeta("123"); // ID incorrecto
+            cardService.generarNumeroTarjeta("123");
         });
     }
 
-    // --- Pruebas para activarTarjeta ---
 
     @Test
     void testActivarTarjeta_Success() {
         String cardId = "1234567890";
         Card mockCard = new Card();
         mockCard.setCardId(cardId);
-        mockCard.setActive(false); // La tarjeta está inactiva
+        mockCard.setActive(false);
 
-        // "Cuando busquen esta tarjeta, devuélvela"
         when(cardRepository.findById(cardId)).thenReturn(Optional.of(mockCard));
 
         CardEnrollRequestDTO request = new CardEnrollRequestDTO();
         request.setCardId(cardId);
 
-        // --- 2. Actuación (Act) ---
         cardService.activarTarjeta(request);
 
-        // --- 3. Afirmación (Assert) ---
         verify(cardRepository, times(1)).findById(cardId);
         verify(cardRepository, times(1)).save(any(Card.class));
-        assertTrue(mockCard.isActive()); // Verificamos que la tarjeta se activó
+        assertTrue(mockCard.isActive());
     }
 
     @Test
@@ -96,8 +81,6 @@ class CardServiceImplTest {
 
         CardEnrollRequestDTO request = new CardEnrollRequestDTO();
         request.setCardId(cardId);
-
-        // Afirmamos que la siguiente llamada LANZARÁ una CardException
         assertThrows(CardException.class, () -> {
             cardService.activarTarjeta(request);
         });
@@ -108,7 +91,7 @@ class CardServiceImplTest {
         String cardId = "1234567890";
         Card mockCard = new Card();
         mockCard.setCardId(cardId);
-        mockCard.setActive(true); // La tarjeta YA está activa
+        mockCard.setActive(true);
 
         when(cardRepository.findById(cardId)).thenReturn(Optional.of(mockCard));
 
@@ -119,17 +102,15 @@ class CardServiceImplTest {
             cardService.activarTarjeta(request);
         });
 
-        // Verificamos que NUNCA se intentó guardar nada
         verify(cardRepository, never()).save(any(Card.class));
     }
     
-    // --- Pruebas para bloquearTarjeta ---
     
     @Test
     void testBloquearTarjeta_Success() {
         String cardId = "123456";
         Card mockCard = new Card();
-        mockCard.setBlocked(false); // No está bloqueada
+        mockCard.setBlocked(false);
         
         when(cardRepository.findById(cardId)).thenReturn(Optional.of(mockCard));
         
@@ -143,7 +124,7 @@ class CardServiceImplTest {
     void testBloquearTarjeta_AlreadyBlocked() {
         String cardId = "123456";
         Card mockCard = new Card();
-        mockCard.setBlocked(true); // YA está bloqueada
+        mockCard.setBlocked(true);
         
         when(cardRepository.findById(cardId)).thenReturn(Optional.of(mockCard));
         
@@ -154,7 +135,6 @@ class CardServiceImplTest {
         verify(cardRepository, never()).save(any(Card.class));
     }
 
-    // --- Pruebas para recargarSaldo ---
 
     @Test
     void testRecargarSaldo_Success() {
@@ -164,7 +144,6 @@ class CardServiceImplTest {
         mockCard.setBalance(new BigDecimal("100"));
 
         when(cardRepository.findById(cardId)).thenReturn(Optional.of(mockCard));
-        // Simulamos que el save() devuelve la tarjeta actualizada
         when(cardRepository.save(any(Card.class))).thenReturn(mockCard);
 
         CardBalanceRequestDTO request = new CardBalanceRequestDTO();
@@ -173,7 +152,6 @@ class CardServiceImplTest {
 
         CardBalanceResponseDTO response = cardService.recargarSaldo(request);
 
-        // Verificamos que el saldo se actualizó correctamente
         assertEquals(new BigDecimal("600"), mockCard.getBalance());
         assertEquals(new BigDecimal("600"), response.getNewBalance());
         verify(cardRepository, times(1)).save(mockCard);
