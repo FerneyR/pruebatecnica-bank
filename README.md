@@ -81,15 +81,19 @@ http://transaction-service-env.eba-3ywqmghm.us-east-2.elasticbeanstalk.com/swagg
 ## 5. Instrucciones de Ejecución
 
 Opción A: Probar en la Nube (AWS) - Recomendado
+
 Puedes probar la aplicación en vivo usando la colección de Postman (Banco_Test_AWS.postman_collection.json) incluida en este repositorio.
 
 Servicio de Tarjetas (card-service):
 
 http://card-service-env1.eba-3ywqmghm.us-east-2.elasticbeanstalk.com
+
 Servicio de Transacciones (transaction-service):
 
 http://transaction-service-env.eba-3ywqmghm.us-east-2.elasticbeanstalk.com
+
 Opción B: Ejecutar en Local
+
 El proyecto está configurado con Perfiles de Spring para ejecutarse localmente sin necesidad de AWS.
 
 Requisitos:
